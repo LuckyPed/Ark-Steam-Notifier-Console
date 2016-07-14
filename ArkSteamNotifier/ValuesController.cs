@@ -15,12 +15,13 @@ namespace ArkSteamNotifier
 
         public void Post(string key, ulong steamid, string notetitle, string message)
         {
-
-            SteamID SID = new SteamID(steamid);
-            Program.steamFriends.SendChatMessage(SID, EChatEntryType.ChatMsg, System.DateTime.UtcNow + " UTC ( GMT ) : " + notetitle);
-            Thread.Sleep(1000);
-            Program.steamFriends.SendChatMessage(SID, EChatEntryType.ChatMsg, message);
-
+            if (!Program.settings.UnSub.Contains(steamid))
+            {
+                SteamID SID = new SteamID(steamid);
+                Program.steamFriends.SendChatMessage(SID, EChatEntryType.ChatMsg, System.DateTime.UtcNow + " UTC ( GMT ) : " + notetitle);
+                Thread.Sleep(1000);
+                Program.steamFriends.SendChatMessage(SID, EChatEntryType.ChatMsg, message);
+            }
         }
 
     }

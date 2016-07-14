@@ -17,7 +17,7 @@ namespace ArkSteamNotifier
 
         public class Settings
         {
-            public List<ulong> UnSub { get; set; }
+            public List<ulong> UnSub { get; set; } = new List<ulong>();
             //Just a Default Value, you can change it later from here or by editing the settings.txt in the app folder.
             public string GameServerAddress { get; set; } = "66.147.230.53";
         }
@@ -285,7 +285,7 @@ namespace ArkSteamNotifier
             if(callBackMessage == "sub")
             {
                 //Remove From UnSubsriber's List
-                settings.UnSub.Remove(callback.Sender.AccountID);
+                settings.UnSub.Remove(callback.Sender.ConvertToUInt64());
                 string settingString = JsonConvert.SerializeObject(settings);
                 File.WriteAllText("settings.txt", settingString);
 
@@ -295,7 +295,7 @@ namespace ArkSteamNotifier
             else if(callBackMessage == "unsub")
             {
                 //Add to UnSubscriber's List
-                settings.UnSub.Add(callback.Sender.AccountID);
+                settings.UnSub.Add(callback.Sender.ConvertToUInt64());
                 string settingString = JsonConvert.SerializeObject(settings);
                 File.WriteAllText("settings.txt", settingString);
 
