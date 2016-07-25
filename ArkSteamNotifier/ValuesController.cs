@@ -27,7 +27,14 @@ namespace ArkSteamNotifier
         {
             if (!Program.settings.UnSub.Contains(data.steamid))
             {
-                SteamID SID = new SteamID(data.steamid);               
+                SteamID SID = new SteamID(data.steamid);
+
+                // Check if the person getting the notification is not already a friend, add him. ( It will not ReAdd ppl who UnSubscribed before and delete friend.)
+                if(Program.steamFriends.GetFriendRelationship(SID) != EFriendRelationship.Friend)
+                {
+                    Program.steamFriends.AddFriend(SID);
+                }
+
                 Program.steamFriends.SendChatMessage(SID, EChatEntryType.ChatMsg, System.DateTime.UtcNow + " UTC ( GMT ) : " + data.notetitle);
 
                 //No Need to Send the Message body atm since it's only '...' and nothing more yet :)
